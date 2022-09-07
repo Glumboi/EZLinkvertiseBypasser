@@ -1,0 +1,85 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EZLinkvertiseBypasser.Core
+{
+    internal class Bypasser
+    {
+        private static string[] patterns = 
+        {
+                "https://linkvertise.com/",
+                "https://up-to-down.net/", "" +
+                "https://link-to.net/",
+                "https://direct-link.net/",
+                "https://file-link.net",
+                "https://link-hub.net"
+        };
+
+        public static string Destination { get; private set; }
+        public static string Query { get; private set; }
+        public static bool Success { get; private set; }
+        public static int Time { get; private set; }
+        public static long Cache_ttl { get; private set; }
+        public static string Plugin { get; private set; }
+        public static string[] Patterns { get => patterns; }
+
+        public Bypasser(string Response)
+        {
+            string[] parameters = Response.Replace("{", "").Replace("}", "").Split(',');
+            foreach (string field in parameters)
+            {
+                int fieldLength = field.IndexOf('"', 2) - 2;
+                string fieldValue = field.Substring(field.IndexOf(':') + 2).Replace("\"", "");
+
+                switch (field.Substring(2, fieldLength))
+                {
+                    case "success":
+                        Success = !fieldValue.ToLower().Contains("fal");
+                        break;
+
+                    case "destination":
+                        Destination = fieldValue;
+                        break;
+
+                    case "uery":
+                        Query = fieldValue;
+                        break;
+
+                    case "time_ms":
+                        Time = int.Parse(fieldValue);
+                        break;
+
+                    case "cache_ttl":
+                        Cache_ttl = long.Parse(fieldValue);
+                        break;
+
+                    case "plugin":
+                        Plugin = fieldValue;
+                        break;
+                }
+            }
+        }
+
+        public static Bypasser BypassURL(string URL)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://bypass.bot.nu/bypass2?url={URL}");
+            request.Referer = "https://thebypasser.com";
+            request.Headers.Add("DNT", "1");
+            request.Accept = "*/*";
+            try
+            {
+                Bypasser result = new Bypasser(new StreamReader(((HttpWebResponse)request.GetResponse()).GetResponseStream()).ReadToEnd());
+                return Success ? result : throw new Exception("There was an error.");
+            }
+            catch (WebException ex) 
+            {
+                throw ex;
+            }
+        }
+    }
+}

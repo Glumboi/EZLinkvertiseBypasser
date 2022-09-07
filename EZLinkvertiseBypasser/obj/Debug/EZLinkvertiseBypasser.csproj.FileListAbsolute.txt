@@ -1,0 +1,17 @@
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\EZLinkvertiseBypasser.exe.config
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\EZLinkvertiseBypasser.exe
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\EZLinkvertiseBypasser.pdb
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.csproj.AssemblyReference.cache
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.csproj.SuggestedBindingRedirects.cache
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.Form1.resources
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.Properties.Resources.resources
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.csproj.GenerateResource.cache
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.exe.licenses
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.csproj.CoreCompileInputs.cache
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.csproj.CopyComplete
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.exe
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.pdb
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\Telerik.WinControls.xml
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\Telerik.WinControls.UI.xml
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.csproj.Fody.CopyLocal.cache
