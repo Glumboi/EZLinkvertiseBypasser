@@ -39,7 +39,7 @@ namespace EZLinkvertiseBypasser
             return Task.CompletedTask;
         }
 
-        async void StartBypass()
+        void StartBypass()
         {
             var link = Link_Textbox.Text;
 
@@ -49,7 +49,7 @@ namespace EZLinkvertiseBypasser
                 return;
             }
 
-            await CreateBypasser(link);
+            CreateBypasser(link);
 
             var dest = $"Destination: {Bypasser.Destination}";
             var time = $"Time: {Bypasser.Time} ms"; //bypasser.Time.ToString();
@@ -58,19 +58,19 @@ namespace EZLinkvertiseBypasser
 
             string[] debugInfo = { query, dest, time, plugin,};
 
-            if (string.IsNullOrEmpty(Bypasser.Destination))
+            /*if (string.IsNullOrEmpty(Bypasser.Destination))
             {
-                /*MessageBox.Show("Could not bypass the link, try again or chose a different link!",
+                MessageBox.Show("Could not bypass the link, try again or chose a different link!",
                 "Error",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Information);*/
+                MessageBoxIcon.Information);
 
                 Glumboi.UI.Toast.ToastHandler.ShowToast(
                     "Could not bypass the link, " +
                     "try again or chose a different link!", 
                     "Error");
                 return;
-            }
+            }*/
 
             if (List_Debug.Items.Count > 0) List_Debug.Items.Clear();
 
