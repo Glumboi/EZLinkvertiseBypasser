@@ -23,6 +23,11 @@ V 1.2:
 - Removed a check that led into bypass failing sometimes
 - I recommend to use this version
 
+V 1.3:
+
+- Fixed another bug that led into a blank destination
+- Best version, I recommend to use this instead of the older ones
+
 
 # GUI image
 
