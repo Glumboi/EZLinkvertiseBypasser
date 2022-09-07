@@ -14,6 +14,10 @@ But the base remains the same.
 
 - First release, no changes
 
+1.1: 
+
+- Added another pattern so you can bypass "link-center.net" links now
+
 
 # GUI image
 
