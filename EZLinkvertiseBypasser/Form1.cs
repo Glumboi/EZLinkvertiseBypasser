@@ -73,6 +73,9 @@ namespace EZLinkvertiseBypasser
             }*/
 
             while(string.IsNullOrWhiteSpace(Bypasser.Destination))
+            {
+                break;
+            }
 
             if (List_Debug.Items.Count > 0) List_Debug.Items.Clear();
 
