@@ -23,11 +23,13 @@ namespace EZLinkvertiseBypasser.Core
 
         public static string Destination { get; private set; }
         public static string Query { get; private set; }
+        public static string Plugin { get; private set; }
+        public static string[] Patterns { get => patterns; set => patterns = value; }
+
         public static bool Success { get; private set; }
+
         public static int Time { get; private set; }
         public static long Cache_ttl { get; private set; }
-        public static string Plugin { get; private set; }
-        public static string[] Patterns { get => patterns; }
 
         public Bypasser(string Response)
         {

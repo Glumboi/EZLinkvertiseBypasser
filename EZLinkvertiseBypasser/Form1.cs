@@ -7,30 +7,76 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EZLinkvertiseBypasser.Core;
+using EZLinkvertiseBypasser.Ex_Forms;
 using Glumboi.UI;
+using Telerik.WinControls.UI;
 
 namespace EZLinkvertiseBypasser
 {
     public partial class Form1 : Form
     {
+        LinkOpenerForm warning;
+        VersionControl version = new VersionControl();
+
+        public bool ShowWarningAgain
+        {
+            get => Properties.Settings.Default.UnsafeBypass;
+            set => Properties.Settings.Default.UnsafeBypass = value;
+        }
+
         public Form1()
         {
             InitializeComponent();
+
+            this.Activated += Form1_Activated;
+            this.Deactivate += Form1_Deactivated;
+        }
+
+        async void CheckForUpdates()
+        {
+            if (await version.CheckGitHubNewerVersion())
+            {
+                DialogResult dlgr = MessageBox.Show(
+                     "There is a new version of the program available!\n\n" +
+                     "Do you want to download it?\n\n" +
+                     $"Installed version: {Assembly.GetExecutingAssembly().GetName().Version}\n" +
+                     "New Version: " + await version.GetGithubVersionAsync(), "Update Available",
+                     MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+
+                if (dlgr == DialogResult.Yes)
+                {
+                    System.Diagnostics.Process.Start("https://github.com/Glumboi/EZLinkvertiseBypasser/releases");
+                }
+
+            }
+        }
+
+        private void Form1_Deactivated(object sender, EventArgs e)
+        {
+            Hotkeys.Unloadhotkeys(this);
+        }
+
+        private void Form1_Activated(object sender, EventArgs e)
+        {
+            Hotkeys.LoadHotkeys(this);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             UIChanger.ChangeTitlebarToDark(Handle);
+            CheckForUpdates();
         }
 
         private void Button_Bypass_Click(object sender, EventArgs e)
         {
-            StartBypass();
+            StartBypass(ShowWarningAgain);
         }
 
         Task CreateBypasser(string link)
@@ -39,7 +85,7 @@ namespace EZLinkvertiseBypasser
             return Task.CompletedTask;
         }
 
-        void StartBypass()
+        async void StartBypass(bool unsafeBypass)
         {
             var link = Link_Textbox.Text;
 
@@ -49,32 +95,24 @@ namespace EZLinkvertiseBypasser
                 return;
             }
 
-            CreateBypasser(link);
+            await CreateBypasser(link);
+
+            //await Task.Delay(30);
 
             var dest = $"Destination: {Bypasser.Destination}";
             var time = $"Time: {Bypasser.Time} ms"; //bypasser.Time.ToString();
             var plugin = $"Plugin: {Bypasser.Plugin}";//bypasser.Plugin;
             var query = $"Query: {Bypasser.Query}";
 
-            string[] debugInfo = { query, dest, time, plugin,};
+            string[] debugInfo = { query, dest, time, plugin, };
 
-            /*if (string.IsNullOrEmpty(Bypasser.Destination))
+            if (string.IsNullOrEmpty(Bypasser.Destination))
             {
-                MessageBox.Show("Could not bypass the link, try again or chose a different link!",
-                "Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
-
                 Glumboi.UI.Toast.ToastHandler.ShowToast(
                     "Could not bypass the link, " +
-                    "try again or chose a different link!", 
+                    "try again or chose a different link!",
                     "Error");
                 return;
-            }*/
-
-            while(string.IsNullOrWhiteSpace(Bypasser.Destination))
-            {
-                break;
             }
 
             if (List_Debug.Items.Count > 0) List_Debug.Items.Clear();
@@ -84,21 +122,38 @@ namespace EZLinkvertiseBypasser
                 List_Debug.Items.Add(str);
             }
 
-            DialogResult dialogResult = MessageBox.Show($"Link bypassed with success, " +
-                $"do you want to open it in your browser?\n\nLink: {Bypasser.Destination}",
-                "Info",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Information);
+            if (!unsafeBypass)
+            {
+                warning = new LinkOpenerForm();
+                warning.Label_Content.Text = $"You are now going to open the bypassed link, are you sure?\n\nLink: {Bypasser.Destination}";
+                warning.Button_No.Click += Button_No_Click;
+                warning.Button_Yes.Click += Button_Yes_Click;
+                warning.Text = "Warning";
 
-            if (dialogResult == DialogResult.Yes)
-            {
-                Web.OpenUrl(Bypasser.Destination);
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                CopyToClipboard(Bypasser.Destination, "Destination copied to clipboard!");
+                warning.Show();
                 return;
             }
+            Web.OpenUrl(Bypasser.Destination);
+        }
+
+        private void Button_Yes_Click(object sender, EventArgs e)
+        {
+            warning.Close();
+            Web.OpenUrl(Bypasser.Destination);
+        }
+
+        private void Button_No_Click(object sender, EventArgs e)
+        {
+            warning.Close();
+        }
+
+        async Task CopyToClipboardFromList(string contentToCopy, RadListDataItem selectedItem)
+        {
+            Clipboard.SetText(contentToCopy);
+
+            selectedItem.ForeColor = Color.LimeGreen;
+            await Task.Delay(1000);
+            selectedItem.ForeColor = Color.White;
         }
 
         void CopyToClipboard(string contentToCopy, string toastContent)
@@ -110,29 +165,42 @@ namespace EZLinkvertiseBypasser
                 "Info");
         }
 
-        private void List_Debug_MouseDoubleClick(object sender, MouseEventArgs e)
+        private async void List_Debug_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            string selectedItem = List_Debug.SelectedItem.ToString();
+            RadListDataItem selectedItem = List_Debug.SelectedItem;
+            string selectedItemStr = selectedItem.ToString();
 
-            if(selectedItem.Contains("Destination"))
+            if (selectedItemStr.Contains("Destination"))
             {
-                CopyToClipboard(Bypasser.Destination, "Destination copied to clipboard!");
+                await CopyToClipboardFromList(Bypasser.Destination, selectedItem);
             }
 
-            if (selectedItem.Contains("Time"))
+            if (selectedItemStr.Contains("Time"))
             {
-                CopyToClipboard("Time: " + Bypasser.Time.ToString() + " ms", "Time copied to clipboard!");
+                await CopyToClipboardFromList("Time: " + Bypasser.Time.ToString() + " ms", selectedItem);
             }
 
-            if (selectedItem.Contains("Plugin"))
+            if (selectedItemStr.Contains("Plugin"))
             {
-                CopyToClipboard("Plugin: " + Bypasser.Plugin, "Plugin copied to clipboard!");
+                await CopyToClipboardFromList("Plugin: " + Bypasser.Plugin, selectedItem);
             }
 
-            if (selectedItem.Contains("Query"))
+            if (selectedItemStr.Contains("Query"))
             {
-                CopyToClipboard(Bypasser.Query, "Query copied to clipboard!");
+                await CopyToClipboardFromList(Bypasser.Query, selectedItem);
             }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case 0x0312 when m.WParam.ToInt32() == (int)Hotkeys.HotkeyIDs.HotkeyID:
+                    Properties.Settings.Default.UnsafeBypass = false;
+                    break;
+            }
+
+            base.WndProc(ref m);
         }
     }
 }
