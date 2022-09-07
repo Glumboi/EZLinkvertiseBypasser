@@ -21,12 +21,15 @@ But the base remains the same.
 V 1.2:
 
 - Removed a check that led into bypass failing sometimes
-- I recommend to use this version
 
 V 1.3:
 
 - Fixed another bug that led into a blank destination
-- Best version, I recommend to use this instead of the older ones
+
+V 1.3.1:
+
+- Fixed a little bug that caused the list to expand with every bypass
+- Recommended version
 
 
 # GUI image
