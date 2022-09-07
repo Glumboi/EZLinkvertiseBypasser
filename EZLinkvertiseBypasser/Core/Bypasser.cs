@@ -17,7 +17,8 @@ namespace EZLinkvertiseBypasser.Core
                 "https://link-to.net/",
                 "https://direct-link.net/",
                 "https://file-link.net",
-                "https://link-hub.net"
+                "https://link-hub.net",
+                "https://link-center.net"
         };
 
         public static string Destination { get; private set; }
