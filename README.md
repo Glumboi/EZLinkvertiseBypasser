@@ -18,6 +18,11 @@ But the base remains the same.
 
 - Added another pattern so you can bypass "link-center.net" links now
 
+V 1.2:
+
+- Removed a check that led into bypass failing sometimes
+- I recommend to use this version
+
 
 # GUI image
 
