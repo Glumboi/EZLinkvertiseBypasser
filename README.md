@@ -31,6 +31,11 @@ V 1.3:
 V 1.3.1:
 
 - Fixed a little bug that caused the list to expand with every bypass
+
+V 2.0:
+
+- New features such as: Safe bypass (asks if you want to open the bypassed link), version control and a hotkey to reset the app (resets the don't show again)
+- Some minor code improvements and cleanups
 - Recommended version
 
 
