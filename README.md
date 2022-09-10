@@ -39,7 +39,7 @@ V 2.0:
 
 V 2.2:
 
-- Completely fixed an issue that led into empty and repeated bypasses
+- Completely fixed an issue that led into empty and repeated bypasses (it can still sometimes happen, just retry if it didn't work but it happened only 2/20 tries of me so far)
 - Increased the time a list item is being highlighted green when you copied it (from 1000 ms to 1300)
 
 V 2.2.1:
