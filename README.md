@@ -38,6 +38,11 @@ V 2.0:
 - Some minor code improvements and cleanups
 - Recommended version
 
+V 2.2:
+
+- Completely fixed an issue that led into empty and repeated bypasses
+- Increased the time a list item is being highlighted green when you copied it (from 1000 ms to 1300)
+
 
 # GUI image
 
