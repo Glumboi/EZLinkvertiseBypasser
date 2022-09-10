@@ -18,7 +18,7 @@ If the first bypass ends up being blank, retry and it should work! (Fixed in 2.2
 
 1.1: 
 
-- Added another pattern so you can bypass "link-center.net" links now
+- Added another pattern so you can bypass "https://link-center.net" links now
 
 V 1.2:
 
