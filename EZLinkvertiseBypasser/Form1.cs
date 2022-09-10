@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EZLinkvertiseBypasser.Core;
@@ -23,6 +15,8 @@ namespace EZLinkvertiseBypasser
     {
         LinkOpenerForm warning;
         VersionControl version = new VersionControl();
+        bool warningIsActive; 
+        string lastDestination;
 
         public bool ShowWarningAgain
         {
@@ -81,7 +75,7 @@ namespace EZLinkvertiseBypasser
 
         Task CreateBypasser(string link)
         {
-            Bypasser bypasser = Bypasser.BypassURL(link);
+            Bypasser.BypassURL(link);
             return Task.CompletedTask;
         }
 
@@ -97,7 +91,15 @@ namespace EZLinkvertiseBypasser
 
             await CreateBypasser(link);
 
-            //await Task.Delay(30);
+            //This will let the app wait until the destination updated to ensure that every bypass doesnt end up empty
+            //or the same as the one before
+            while(Bypasser.Destination.Length < 1 || lastDestination == Bypasser.Destination)
+            {
+                await Task.Delay(25);
+                lastDestination = string.Empty;
+            }
+
+            lastDestination = Bypasser.Destination;
 
             var dest = $"Destination: {Bypasser.Destination}";
             var time = $"Time: {Bypasser.Time} ms"; //bypasser.Time.ToString();
@@ -124,16 +126,29 @@ namespace EZLinkvertiseBypasser
 
             if (!unsafeBypass)
             {
-                warning = new LinkOpenerForm();
-                warning.Label_Content.Text = $"You are now going to open the bypassed link, are you sure?\n\nLink: {Bypasser.Destination}";
-                warning.Button_No.Click += Button_No_Click;
-                warning.Button_Yes.Click += Button_Yes_Click;
-                warning.Text = "Warning";
+                if(!warningIsActive)    //Blocks the user from opening another warning form which can lead into issues
+                {
+                    warning = new LinkOpenerForm();
+                    warning.Label_Content.Text = $"You are now going to open the bypassed link, are you sure?\n\nLink: {Bypasser.Destination}";
+                    warning.Button_No.Click += Button_No_Click;
+                    warning.Button_Yes.Click += Button_Yes_Click;
+                    warning.FormClosing += Warning_FormClosing;
+                    warning.Text = "Warning";
 
-                warning.Show();
+                    warning.Show();
+                }
+
+                warningIsActive = true;
+
                 return;
             }
             Web.OpenUrl(Bypasser.Destination);
+        }
+
+        private void Warning_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            warningIsActive = false;
+            warning.Dispose();
         }
 
         private void Button_Yes_Click(object sender, EventArgs e)
@@ -152,10 +167,11 @@ namespace EZLinkvertiseBypasser
             Clipboard.SetText(contentToCopy);
 
             selectedItem.ForeColor = Color.LimeGreen;
-            await Task.Delay(1000);
+            await Task.Delay(1300);
             selectedItem.ForeColor = Color.White;
         }
 
+        //Old version of the function above, this may be used again in the future
         void CopyToClipboard(string contentToCopy, string toastContent)
         {
             Clipboard.SetText(contentToCopy);

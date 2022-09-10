@@ -15,3 +15,5 @@ F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\Telerik.W
 F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\Telerik.WinControls.UI.xml
 F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\System.Diagnostics.DiagnosticSource.xml
 F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.csproj.Fody.CopyLocal.cache
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\Octokit.xml
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.Ex_Forms.LinkOpenerForm.resources

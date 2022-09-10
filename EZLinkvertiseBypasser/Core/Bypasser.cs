@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EZLinkvertiseBypasser.Core
 {
     internal class Bypasser
     {
-        private static string[] patterns = 
+        /// <summary>
+        /// Deactivated to see if they caused the issues that led into blank bypasses
+        /// </summary>
+
+        private static string[] patterns =
         {
                 "https://linkvertise.com/",
-                "https://up-to-down.net/", "" +
+                "https://up-to-down.net/",
                 "https://link-to.net/",
                 "https://direct-link.net/",
                 "https://file-link.net",
