@@ -36,7 +36,6 @@ V 2.0:
 
 - New features such as: Safe bypass (asks if you want to open the bypassed link), version control and a hotkey to reset the app (resets the don't show again)
 - Some minor code improvements and cleanups
-- Recommended version
 
 V 2.2:
 
@@ -46,7 +45,7 @@ V 2.2:
 V 2.2.1:
 
 - Added a new pattern for "https://link-target.net" links of Linkvertise
-
+- Recommended version
 
 # GUI image
 
