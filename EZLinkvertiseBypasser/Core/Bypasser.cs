@@ -6,10 +6,6 @@ namespace EZLinkvertiseBypasser.Core
 {
     internal class Bypasser
     {
-        /// <summary>
-        /// Deactivated to see if they caused the issues that led into blank bypasses
-        /// </summary>
-
         private static string[] patterns =
         {
                 "https://linkvertise.com/",
