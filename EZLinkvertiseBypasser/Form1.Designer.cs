@@ -39,6 +39,7 @@
             this.bunifuSeparator1 = new Bunifu.UI.WinForms.BunifuSeparator();
             this.List_Debug = new Telerik.WinControls.UI.RadListControl();
             this.crystalDarkTheme1 = new Telerik.WinControls.Themes.CrystalDarkTheme();
+            this.Label_Focus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.List_Debug)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +50,7 @@
             this.Link_Textbox.AnimationSpeed = 200;
             this.Link_Textbox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
             this.Link_Textbox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
-            this.Link_Textbox.BackColor = System.Drawing.Color.Transparent;
+            this.Link_Textbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.Link_Textbox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Link_Textbox.BackgroundImage")));
             this.Link_Textbox.BorderColorActive = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.Link_Textbox.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
@@ -126,7 +127,7 @@
             this.Button_Bypass.AnimationSpeed = 200;
             this.Button_Bypass.AutoGenerateColors = false;
             this.Button_Bypass.AutoRoundBorders = true;
-            this.Button_Bypass.AutoSizeLeftIcon = true;
+            this.Button_Bypass.AutoSizeLeftIcon = false;
             this.Button_Bypass.AutoSizeRightIcon = true;
             this.Button_Bypass.BackColor = System.Drawing.Color.Transparent;
             this.Button_Bypass.BackColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
@@ -146,7 +147,7 @@
             this.Button_Bypass.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.Button_Bypass.DisabledFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.Button_Bypass.DisabledForecolor = System.Drawing.Color.White;
-            this.Button_Bypass.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Pressed;
+            this.Button_Bypass.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Idle;
             this.Button_Bypass.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.Button_Bypass.ForeColor = System.Drawing.Color.White;
             this.Button_Bypass.IconLeftAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -234,12 +235,22 @@
             this.List_Debug.ThemeName = "CrystalDark";
             this.List_Debug.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.List_Debug_MouseDoubleClick);
             // 
+            // Label_Focus
+            // 
+            this.Label_Focus.Location = new System.Drawing.Point(211, 26);
+            this.Label_Focus.Name = "Label_Focus";
+            this.Label_Focus.Size = new System.Drawing.Size(100, 23);
+            this.Label_Focus.TabIndex = 0;
+            this.Label_Focus.Text = "label1";
+            this.Label_Focus.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(577, 203);
+            this.Controls.Add(this.Label_Focus);
             this.Controls.Add(this.List_Debug);
             this.Controls.Add(this.bunifuSeparator1);
             this.Controls.Add(this.Button_Bypass);
@@ -250,9 +261,12 @@
             this.Name = "Form1";
             this.Text = "EZLinkvertiseBypasser";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.LocationChanged += new System.EventHandler(this.Form1_LocationChanged);
             ((System.ComponentModel.ISupportInitialize)(this.List_Debug)).EndInit();
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Label Label_Focus;
 
         #endregion
 

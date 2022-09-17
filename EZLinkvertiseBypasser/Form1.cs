@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Bunifu.UI.WinForms.BunifuButton;
 using EZLinkvertiseBypasser.Core;
 using EZLinkvertiseBypasser.Ex_Forms;
 using Glumboi.UI;
@@ -19,6 +21,7 @@ namespace EZLinkvertiseBypasser
         private bool warningIsActive;
         private string lastDestination;
         private string destination = String.Empty;
+        private Point formLoc; 
 
         private bool ShowWarningAgain
         {
@@ -104,7 +107,7 @@ namespace EZLinkvertiseBypasser
         List<string> GetDebugInfo()
         {
             var dest = $"Destination: {Bypasser.Destination}";
-            var time = $"Time: {Bypasser.Time} ms";
+            var time = Bypasser.Time < 1 ? "Time: < 1 ms" : $"Time: {Bypasser.Time} ms";
             var plugin = $"Plugin: {Bypasser.Plugin}";
             var query = $"Query: {Bypasser.Query}";
             destination = Bypasser.Destination;
@@ -116,12 +119,18 @@ namespace EZLinkvertiseBypasser
         {
             if (List_Debug.Items.Count > 0) List_Debug.Items.Clear();
 
-            var info = GetDebugInfo();
-            for (var index = 0; index < info.Count; index++)
+            foreach (var str in GetDebugInfo())
             {
-                var str = info[index];
                 List_Debug.Items.Add(str);
             }
+        }
+
+        private void Form1_LocationChanged(object sender, EventArgs e)
+        {
+            Point loc = new Point(this.Location.X, this.Location.Y);
+            loc.X += 70;
+            formLoc = loc;
+            Debug.WriteLine($"Form location: {formLoc.ToString()}");
         }
 
         void OpenDestinationLink(bool unsafeBypass)
@@ -139,8 +148,10 @@ namespace EZLinkvertiseBypasser
                     warning.Button_Yes.Click += Button_Yes_Click;
                     warning.FormClosing += Warning_FormClosing;
                     warning.Text = "Warning";
-
                     warning.Show();
+                    
+                    
+                    warning.Location = formLoc;
                 }
 
                 warningIsActive = true;
@@ -244,6 +255,10 @@ namespace EZLinkvertiseBypasser
         private async void Button_Bypass_MouseClick(object sender, MouseEventArgs e)
         {
             await StartBypass(ShowWarningAgain);
+            
+            //This should fix an issue that was causing the button not to work on the first press
+            Label_Focus.Focus();
+            Button_Bypass.FocusState = BunifuButton.ButtonStates.Idle;
         }
     }
 }
