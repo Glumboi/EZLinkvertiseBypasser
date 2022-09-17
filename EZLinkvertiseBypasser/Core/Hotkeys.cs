@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace EZLinkvertiseBypasser.Core
 {
-    internal class Hotkeys
+    internal static class Hotkeys
     {
         //Extern methods used to manage hotkeys
         [DllImport("user32.dll")]
@@ -27,7 +27,7 @@ namespace EZLinkvertiseBypasser.Core
             RegisterHotKey(control.Handle, (int)HotkeyIDs.HotkeyID, 2, (int)Keys.R);
         }
 
-        public static void Unloadhotkeys(Control control)
+        public static void UnloadHotkeys(Control control)
         {
             var enumLength = Enum.GetNames(typeof(HotkeyIDs)).Length;
 

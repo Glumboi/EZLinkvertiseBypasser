@@ -17,3 +17,4 @@ F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\System.Di
 F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.csproj.Fody.CopyLocal.cache
 F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\Octokit.xml
 F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Debug\EZLinkvertiseBypasser.Ex_Forms.LinkOpenerForm.resources
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Debug\Newtonsoft.Json.xml

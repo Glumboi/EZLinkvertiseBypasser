@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -13,16 +14,19 @@ namespace EZLinkvertiseBypasser
 {
     public partial class Form1 : Form
     {
-        LinkOpenerForm warning;
-        VersionControl version = new VersionControl();
-        bool warningIsActive; 
-        string lastDestination;
+        private LinkOpenerForm warning;
+        private readonly VersionControl version = new VersionControl();
+        private bool warningIsActive;
+        private string lastDestination;
+        private string destination = String.Empty;
 
-        public bool ShowWarningAgain
+        private bool ShowWarningAgain
         {
             get => Properties.Settings.Default.UnsafeBypass;
             set => Properties.Settings.Default.UnsafeBypass = value;
         }
+
+        private string LinkText { get; set; }
 
         public Form1()
         {
@@ -32,29 +36,23 @@ namespace EZLinkvertiseBypasser
             this.Deactivate += Form1_Deactivated;
         }
 
-        async void CheckForUpdates()
+        private async void CheckForUpdates()
         {
-            if (await version.CheckGitHubNewerVersion())
-            {
-                DialogResult dlgr = MessageBox.Show(
-                     "There is a new version of the program available!\n\n" +
-                     "Do you want to download it?\n\n" +
-                     $"Installed version: {Assembly.GetExecutingAssembly().GetName().Version}\n" +
-                     "New Version: " + await version.GetGithubVersionAsync(), "Update Available",
-                     MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (!await version.CheckGitHubNewerVersion()) return;
+            DialogResult dlgr = MessageBox.Show(
+                "There is a new version of the program available!\n\n" +
+                "Do you want to download it?\n\n" +
+                $"Installed version: {Assembly.GetExecutingAssembly().GetName().Version}\n" +
+                "New Version: " + await version.GetGithubVersionAsync(), "Update Available",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
-
-                if (dlgr == DialogResult.Yes)
-                {
-                    System.Diagnostics.Process.Start("https://github.com/Glumboi/EZLinkvertiseBypasser/releases");
-                }
-
-            }
+            if (dlgr == DialogResult.Yes)
+                System.Diagnostics.Process.Start("https://github.com/Glumboi/EZLinkvertiseBypasser/releases");
         }
 
         private void Form1_Deactivated(object sender, EventArgs e)
         {
-            Hotkeys.Unloadhotkeys(this);
+            Hotkeys.UnloadHotkeys(this);
         }
 
         private void Form1_Activated(object sender, EventArgs e)
@@ -68,68 +66,75 @@ namespace EZLinkvertiseBypasser
             CheckForUpdates();
         }
 
-        private void Button_Bypass_Click(object sender, EventArgs e)
+        //Disabled to test certain things
+        //(trying to fix a bug where clicking the button does nothing)
+        /*private async void Button_Bypass_Click(object sender, EventArgs e)
         {
-            StartBypass(ShowWarningAgain);
-        }
+            //await StartBypass(ShowWarningAgain);
+        }*/
 
-        Task CreateBypasser(string link)
+        private void CreateBypasser(string link)
         {
             Bypasser.BypassURL(link);
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
 
-        async void StartBypass(bool unsafeBypass)
+        void ScanForPatterns()
         {
-            var link = Link_Textbox.Text;
-
-            if (!Bypasser.Patterns.Any(x => link.StartsWith(x)))
+            if (!Bypasser.Patterns.Any(x => LinkText.StartsWith(x)))
             {
                 Glumboi.UI.Toast.ToastHandler.ShowToast("Link is not a valid Linkvertise link!", "Error");
                 return;
             }
+        }
 
-            await CreateBypasser(link);
-
+        private async Task WaitForBypasserToFinish()
+        {
             //This will let the app wait until the destination updated to ensure that every bypass doesnt end up empty
             //or the same as the one before
-            while(Bypasser.Destination.Length < 1 || lastDestination == Bypasser.Destination)
+            while (lastDestination == Bypasser.Destination || string.IsNullOrWhiteSpace(Bypasser.Destination))
             {
-                await Task.Delay(25);
+                await Task.Delay(100);
                 lastDestination = string.Empty;
             }
 
             lastDestination = Bypasser.Destination;
+        }
 
+        List<string> GetDebugInfo()
+        {
             var dest = $"Destination: {Bypasser.Destination}";
-            var time = $"Time: {Bypasser.Time} ms"; //bypasser.Time.ToString();
-            var plugin = $"Plugin: {Bypasser.Plugin}";//bypasser.Plugin;
+            var time = $"Time: {Bypasser.Time} ms";
+            var plugin = $"Plugin: {Bypasser.Plugin}";
             var query = $"Query: {Bypasser.Query}";
+            destination = Bypasser.Destination;
+            
+            return new List<string>() { query, dest, time, plugin, };
+        }
 
-            string[] debugInfo = { query, dest, time, plugin, };
-
-            if (string.IsNullOrEmpty(Bypasser.Destination))
-            {
-                Glumboi.UI.Toast.ToastHandler.ShowToast(
-                    "Could not bypass the link, " +
-                    "try again or chose a different link!",
-                    "Error");
-                return;
-            }
-
+        void UpdateDebugList()
+        {
             if (List_Debug.Items.Count > 0) List_Debug.Items.Clear();
 
-            foreach (string str in debugInfo)
+            var info = GetDebugInfo();
+            for (var index = 0; index < info.Count; index++)
             {
+                var str = info[index];
                 List_Debug.Items.Add(str);
             }
+        }
 
+        void OpenDestinationLink(bool unsafeBypass)
+        {
+            //If statement is inverted because of me being a little too dumb xD it should be unsafeBypass.
+            //Instead of !unsafeBypass 
             if (!unsafeBypass)
             {
-                if(!warningIsActive)    //Blocks the user from opening another warning form which can lead into issues
+                if (!warningIsActive) //Blocks the user from opening another warning form which can lead into issues
                 {
                     warning = new LinkOpenerForm();
-                    warning.Label_Content.Text = $"You are now going to open the bypassed link, are you sure?\n\nLink: {Bypasser.Destination}";
+                    warning.Label_Content.Text =
+                        $"You are now going to open the bypassed link, are you sure?\n\nLink: {Bypasser.Destination}";
                     warning.Button_No.Click += Button_No_Click;
                     warning.Button_Yes.Click += Button_Yes_Click;
                     warning.FormClosing += Warning_FormClosing;
@@ -142,7 +147,19 @@ namespace EZLinkvertiseBypasser
 
                 return;
             }
+
             Web.OpenUrl(Bypasser.Destination);
+        }
+
+        async Task StartBypass(bool unsafeBypass)
+        {
+            ScanForPatterns();
+            CreateBypasser(LinkText);
+            await WaitForBypasserToFinish();
+            UpdateDebugList();
+            OpenDestinationLink(unsafeBypass);
+            
+            Bypasser.Destination = string.Empty;
         }
 
         private void Warning_FormClosing(object sender, FormClosingEventArgs e)
@@ -154,7 +171,7 @@ namespace EZLinkvertiseBypasser
         private void Button_Yes_Click(object sender, EventArgs e)
         {
             warning.Close();
-            Web.OpenUrl(Bypasser.Destination);
+            Web.OpenUrl(destination);
         }
 
         private void Button_No_Click(object sender, EventArgs e)
@@ -188,7 +205,7 @@ namespace EZLinkvertiseBypasser
 
             if (selectedItemStr.Contains("Destination"))
             {
-                await CopyToClipboardFromList(Bypasser.Destination, selectedItem);
+                await CopyToClipboardFromList(destination, selectedItem);
             }
 
             if (selectedItemStr.Contains("Time"))
@@ -217,6 +234,16 @@ namespace EZLinkvertiseBypasser
             }
 
             base.WndProc(ref m);
+        }
+
+        private void Link_Textbox_TextChanged(object sender, EventArgs e)
+        {
+            LinkText = Link_Textbox.Text;
+        }
+
+        private async void Button_Bypass_MouseClick(object sender, MouseEventArgs e)
+        {
+            await StartBypass(ShowWarningAgain);
         }
     }
 }

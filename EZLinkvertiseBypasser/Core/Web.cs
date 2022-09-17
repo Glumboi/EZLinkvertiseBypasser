@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace EZLinkvertiseBypasser.Core
 {
-    internal class Web
+    internal static class Web
     {
         public static void OpenUrl(string url)
         {

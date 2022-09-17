@@ -17,3 +17,4 @@ F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Release\EZLinkv
 F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Release\EZLinkvertiseBypasser.pdb
 F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\obj\Release\EZLinkvertiseBypasser.Ex_Forms.LinkOpenerForm.resources
 F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Release\Octokit.xml
+F:\SelfmadeTools\EZLinkvertiseBypasser\EZLinkvertiseBypasser\bin\Release\Newtonsoft.Json.xml
