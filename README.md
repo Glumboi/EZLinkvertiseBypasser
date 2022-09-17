@@ -52,6 +52,11 @@ V 2.3.0:
 - Cleaned and improved the code
 - Some little speed improvments 
 
+V 2.3.1:
+
+- Made some more optimisations 
+- Added a new feature that lets the safe bypass messagebox appear on the middle of the mainform
+
 # GUI image
 
 ![alt text](https://i.imgur.com/OC750jw.png)
