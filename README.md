@@ -45,7 +45,12 @@ V 2.2:
 V 2.2.1:
 
 - Added a new pattern for "https://link-target.net" links of Linkvertise
-- Recommended version
+
+V 2.3.0:
+
+- After alot of tinkering I finally fixed bugs that should've been fixed since V 1.2
+- Cleaned and improved the code
+- Some little speed improvments 
 
 # GUI image
 
