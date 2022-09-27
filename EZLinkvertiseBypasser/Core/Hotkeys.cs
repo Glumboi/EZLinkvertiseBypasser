@@ -25,6 +25,7 @@ namespace EZLinkvertiseBypasser.Core
         public static void LoadHotkeys(Control control)
         {
             RegisterHotKey(control.Handle, (int)HotkeyIDs.HotkeyID, 2, (int)Keys.R);
+            Program.debugConsole.Info("Hotkeys got loaded");
         }
 
         public static void UnloadHotkeys(Control control)
@@ -34,6 +35,7 @@ namespace EZLinkvertiseBypasser.Core
             for (int i = 0; i < enumLength; i++)
             {
                 UnregisterHotKey(control.Handle, i);
+                Program.debugConsole.Info($"Hotkey {i} got un-loaded");
             }
         }
     }

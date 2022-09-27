@@ -28,11 +28,13 @@ namespace EZLinkvertiseBypasser.Core
 
         private Bypasser(string Response)
         {
+            Program.debugConsole.Info(Response);
             var parameters = Response.Replace("{", "").Replace("}", "").Split(',');
             foreach (string field in parameters)
             {
                 var fieldLength = field.IndexOf('"', 2) - 2;
                 var fieldValue = field.Substring(field.IndexOf(':') + 2).Replace("\"", "");
+                Program.debugConsole.Info($"FieldLength: {fieldLength}, FieldValue: {fieldValue}");
 
                 switch (field.Substring(2, fieldLength))
                 {

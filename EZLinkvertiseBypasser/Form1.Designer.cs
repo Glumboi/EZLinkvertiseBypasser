@@ -264,6 +264,7 @@
             this.LocationChanged += new System.EventHandler(this.Form1_LocationChanged);
             ((System.ComponentModel.ISupportInitialize)(this.List_Debug)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         private System.Windows.Forms.Label Label_Focus;

@@ -20,7 +20,7 @@ namespace EZLinkvertiseBypasser
         private readonly VersionControl version = new VersionControl();
         private bool warningIsActive;
         private string lastDestination;
-        private string destination = String.Empty;
+        private string destination = string.Empty;
         private Point formLoc; 
 
         private bool ShowWarningAgain
@@ -130,7 +130,6 @@ namespace EZLinkvertiseBypasser
             Point loc = new Point(this.Location.X, this.Location.Y);
             loc.X += 70;
             formLoc = loc;
-            Debug.WriteLine($"Form location: {formLoc.ToString()}");
         }
 
         void OpenDestinationLink(bool unsafeBypass)
